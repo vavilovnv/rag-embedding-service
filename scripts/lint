@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ruff format --check --diff app
+
+ruff check app
+mypy app

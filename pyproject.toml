@@ -1,0 +1,23 @@
+[project]
+name = "embedding-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.2.0",
+    "fastapi>=0.119.1,<0.120.0",
+    "langchain-chroma>=1.0.0",
+    "langchain-core>=1.0.0",
+    "langchain-text-splitters>=1.0.0",
+    "pydantic>=2.12.3",
+    "pydantic-settings>=2.11.0",
+    "sentence-transformers>=5.1.1",
+    "uvicorn>=0.38.0",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+    "ruff>=0.13.2",
+]

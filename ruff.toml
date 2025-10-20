@@ -1,0 +1,40 @@
+target-version = "py310"
+line-length = 88
+exclude = []
+
+[lint]
+# E — style errors (PEP 8)
+# F — Pyflakes errors (unused imports, variables, etc.)
+# B — flake8-bugbear (potential bugs)
+# S — flake8-bandit (security issues)
+# W — PEP 8 warnings
+# I — isort (import sorting)
+# N — naming conventions
+# Q — quotes
+select = ["E", "F", "B", "S", "W", "I", "N", "Q"]
+extend-select = ["B006", "B007"]
+external = ["WPS", "RST", "E"]
+
+ignore = [
+    # Bugbear
+    "B008",
+    # Pydocstyle
+    "D101", "D102", "D103", "D106", "D107", "D202",
+    # Whitespace compatibility with Black
+    "E203",
+    # Bandit
+    "S101", "S702",
+]
+
+[lint.per-file-ignores]
+"app/services/embeddings.py" = ["S324"]
+"app/resources/strings.py" = ["E501", "S105"]
+"tests/*" = ["D100", "S106"]
+
+[lint.flake8-quotes]
+inline-quotes = "double"
+avoid-escape = true
+
+[lint.isort]
+known-first-party = ["app"]
+combine-as-imports = true
