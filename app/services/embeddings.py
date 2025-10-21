@@ -1,8 +1,9 @@
+"""Module for embeddings processing."""
+
 import asyncio
 import hashlib
 
-import chromadb
-from chromadb import Settings
+from chromadb import ClientAPI, PersistentClient, Settings
 from langchain_chroma import Chroma
 from langchain_core.embeddings import Embeddings
 from sentence_transformers import SentenceTransformer
@@ -31,12 +32,12 @@ class EmbeddingStore:
     """Class for work with vector DB."""
 
     _lock = asyncio.Lock()
-    _client: chromadb.PersistentClient | None = None
+    _client: ClientAPI | None = None
     _embeddings: E5Embeddings | None = None
     _stores: dict[str, Chroma] = {}
 
     @classmethod
-    async def get_store(cls, source: str = "default-store") -> Chroma:
+    async def get_store(cls, source: str) -> Chroma:
         """Get or create a store for the specific source collection."""
         collection_name = cls._get_chroma_db_collection_name(source)
 
@@ -85,7 +86,7 @@ class EmbeddingStore:
     def _init_client(cls) -> None:
         """Initialize ChromaDB client and embeddings model once."""
         if cls._client is None:
-            cls._client = chromadb.PersistentClient(
+            cls._client = PersistentClient(
                 path=settings.EMBEDDING_DB_PATH,
                 settings=Settings(anonymized_telemetry=False),
             )

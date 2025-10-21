@@ -1,3 +1,5 @@
+"""Project settings."""
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from app.schemas.enums import SentenceTransformerDevices
@@ -13,6 +15,11 @@ class AppSettings(BaseSettings):
     EMBEDDING_DB_PATH: str = ""
     EMBEDDING_PAGE_CHUNK_SIZE: int = 600
     EMBEDDING_PAGE_CHUNK_OVERLAP: int = 200
+    EMBEDDING_COLLECTION_DEFAULT_NAME: str = "default-store"
+
+    SEARCH_RESULTS_NUMBER: int = 5
+
+    DEBUG: bool = False
 
 
 settings = AppSettings()

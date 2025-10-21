@@ -1,4 +1,4 @@
-"""Module for RAG methods."""
+"""Module for RAG content methods."""
 
 import asyncio
 
@@ -37,15 +37,15 @@ async def update_rag_embeddings(source: str, text: str) -> int:
     )
     splits = text_splitter.split_documents(docs)
 
-    vector_store = await EmbeddingStore.get_store()
+    vector_store = await EmbeddingStore.get_store(source)
     ids = await vector_store.aadd_documents(splits)
 
     return len(ids)
 
 
-async def build_rag_prompt_message(user_message: str) -> str:
-    """Build RAG prompt users' message."""
-    vector_store = await EmbeddingStore.get_store()
+async def search_for_message(source: str, user_message: str) -> str:
+    """Search text chunks for users' message."""
+    vector_store = await EmbeddingStore.get_store(source)
 
     return await asyncio.to_thread(_do_similarity_search, vector_store, user_message)
 
@@ -55,7 +55,7 @@ def _process_collection_data(collection: chromadb.Collection) -> list[dict]:
 
     content_list = []
     if documents and "documents" in documents:
-        base_data = zip(documents["documents"], documents["metadatas"], strict=True)
+        base_data = zip(documents["documents"], documents["metadatas"], strict=True)  # type: ignore
         for obj_id, (doc, metadata) in enumerate(base_data):
             content_list.append(
                 {
@@ -69,5 +69,7 @@ def _process_collection_data(collection: chromadb.Collection) -> list[dict]:
 
 
 def _do_similarity_search(vector_store: Chroma, user_message: str) -> str:
-    rag_data = vector_store.similarity_search(user_message, k=5)
+    rag_data = vector_store.similarity_search(
+        user_message, k=settings.SEARCH_RESULTS_NUMBER
+    )
     return "\n".join([doc.page_content for doc in rag_data])

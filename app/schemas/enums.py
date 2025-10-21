@@ -1,3 +1,5 @@
+"""Module for enums."""
+
 from enum import StrEnum
 
 

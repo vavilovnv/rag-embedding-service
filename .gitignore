@@ -9,4 +9,10 @@ wheels/
 # Virtual environments
 .venv
 .idea
+
+# Statics
+chroma_db/
+
+# Other
+.python-version
 .env
