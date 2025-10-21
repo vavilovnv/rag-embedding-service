@@ -19,11 +19,11 @@ uv sync
 3. Based on the .env_example file, create a .env file and fill in the variable values. he path to the model folder should be specified as the location where the model repository will be cloned (see, deploy of the embedding model).
 4. Run `uvicorn`:
 ```bash
-uvicorn app.main:app --host 127.0.0.1 --port 8085
+uvicorn app.main:app --host 0.0.0.0 --port 8085  # or any other port
 ```
 
 ### Main endpoints
-The complete list of endpoints is available at http://127.0.0.1:8085/docs
+The complete list of endpoints is available at http://0.0.0.0:8085/docs
 
 1. `/app/v1/embeddings/get_collection` - get a collection by name or the default collection
 2. `/app/v1/embeddings/update` - create or update a collection
